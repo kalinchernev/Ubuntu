@@ -14,3 +14,8 @@ Using WebDevSetup.sh script
 - Change directories where the downloaded file is
 - Add permissions to execute the file chmod +x ./WebDevSetup.sh
 - Run with ./WebDevSetup.sh
+
+===
+.bash_aliases
+===
+Initial commit for the bash aliases which I plan to change soon anyway

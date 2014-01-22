@@ -110,6 +110,39 @@ function downloadExternalApps () {
     done
 }
 
+function listDirectoryFiles () {
+    printf "\n"
+    echo "You are here: "
+    pwd
+    printf "\n"
+    echo "These are the files available: "
+    files=(*)
+    for i in "${!files[@]}"
+    do
+        echo ${files[$i]}
+    done
+    printf "\n\n\n"
+}
+
+function installDirectoryFiles () {
+    files=(*)   
+    for i in "${!files[@]}"
+    do
+        echo "Opening:"
+        echo ${files[$i]}
+        extension=$(getPackageExtension ${files[$i]})
+        echo "This file is of extension:"
+        echo $extension;
+        if [ "$extension" = "sh" ]; then
+            chmod +x ${files[$i]}
+            ./${files[$i]}
+        else
+            sudo dpkg -i ${files[$i]}
+        fi
+    done
+}
+
+
 function InstallRepositoryApps () {
     echo "Starting the installation of apps from repositories"
     sudo apt-get update
@@ -121,7 +154,7 @@ function InstallRepositoryApps () {
     done
 }
 
-# Declaring associative array with list of external apps
+# Declaring an array with list of external apps
 declare -A appsList
 
 appsList=(
@@ -132,7 +165,7 @@ appsList=(
     ["SublimeText3 Beta for Ubuntu 12.04 LTS 64 bit"]="http://c758482.r82.cf2.rackcdn.com/sublime-text_build-3059_amd64.deb"
 )
 
-# Declaring associative array with list of repository apps
+# Declaring an array with list of repository apps
 declare -A repoAppsList
 
 repoAppsList=(
@@ -167,6 +200,15 @@ downloadExternalApps appsList
 # Tell the user which apps will be installed
 listExternalApps appsList
 # @Todo include a function to install the packages depending on the .deb or .sh extensions
+
+cd ~/Desktop/ExternalApps
+
+# get all files in the folder
+files=(*)
+# list the files
+listDirectoryFiles files
+# install the packages
+installDirectoryFiles files
 
 consoleBreak
 echo "External apps ready."

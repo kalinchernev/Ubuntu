@@ -1,58 +1,6 @@
 #!/bin/bash
 # Start this script at newly installed Ubuntu 12.04 LTS
 # The script will install all necessary software for setting up a web development environment
-# 
-# Ubuntu fixes
-# - Install the package to fix missing skype icon on toolbar
-# 
-# LAMP environment
-# - apache2
-# - php5
-# - mysql
-# - phpmyadmin
-# - set apache files to use home directory as public_html
-# - configuration files for virtual hosts are in each folder
-# 
-# Automation
-# - setup new virtual host+alias for web project
-# 
-# Include aliases
-# - starting apache service
-# - restarting apache service
-# - installing packages through aptitute
-# - removing packages through aptitude
-# - updating and upgrading through aptitude
-# 
-# Install packages through aptitude
-# - git
-# - subversion (SVN)
-# - VirtualBox
-# 
-# Get external apps
-# - Skype
-# - Google Chrome
-# - DropBox
-# - Sublime Text 3
-# - Netbeans
-# - Copy
-# - XDebug
-# 
-# Adding external repos
-# - NodeJS
-# - Drush
-#
-# @Todo
-# - include a function to download, extract and start Copy app and move it to /opt folder
-# - include a function to install Apps from external sources (Drush, nodejs, themes, icons)
-# - Include drush installation
-# - Include NodeJS installation
-# - Include XDebug installation
-# - Include XDebug installation
-# - Automation: include a function to setup a new project
-# - Automation: include a .bash_aliases file at home directory
-# - Finish the file with a question to run the upgrade command
-# - make an initial check if the system is indeed Ubuntu 12.04 LTS before running the script?
-
 # The script is targeted for Ubuntu 12.04 LTS
 
 ###################################
@@ -64,12 +12,12 @@ function consoleBreak {
     printf "\n\n\n"
 }
 
-# Function to get file extension
-# Will be used to determine how to install a package from the folder with downloaded external apps
+# Gets information about a file extension
 function getPackageExtension () {
     echo $1|awk -F . '{print $NF}'
 }
 
+# Lists applications which are coming from external sources (not APT)
 function listExternalApps () {
     printf "\n"
     echo "This is the list of external apps to be installed: "
@@ -80,6 +28,7 @@ function listExternalApps () {
     consoleBreak
 }
 
+# Lists applications which are coming from APT
 function listRepositoryApps () {
     printf "\n"
     echo "This is the list of repository apps to be installed: "
@@ -90,6 +39,7 @@ function listRepositoryApps () {
     consoleBreak
 }
 
+# Creates a folder called "ExternalApps" on user's desktop
 function createExternalAppsFolder {
     cd ~/Desktop/
     mkdir ExternalApps
@@ -99,6 +49,7 @@ function createExternalAppsFolder {
     printf "\n"
 }
 
+# Downloads applications which are external to APT
 function downloadExternalApps () {
     cd ~/Desktop/ExternalApps
     echo "Starting the download of external apps ..."
@@ -110,6 +61,7 @@ function downloadExternalApps () {
     done
 }
 
+# Lists the files in a given directory
 function listDirectoryFiles () {
     printf "\n"
     echo "You are here: "
@@ -124,6 +76,8 @@ function listDirectoryFiles () {
     printf "\n\n\n"
 }
 
+# Installs packages from a given directory. Recognizes .sh and .deb extensions
+# Depends on function getPackageExtension in order to recognize the extension of a given package
 function installDirectoryFiles () {
     files=(*)   
     for i in "${!files[@]}"
@@ -142,7 +96,7 @@ function installDirectoryFiles () {
     done
 }
 
-
+# Installing applications through APT
 function InstallRepositoryApps () {
     echo "Starting the installation of apps from repositories"
     sudo apt-get update
@@ -184,7 +138,9 @@ repoAppsList=(
 ############################
 # STARTING THE ACTUAL WORK #
 ############################
+
 consoleBreak
+echo "The setup now begins."
 echo "Will install the JDK7 package now. It's needed by NetBeans ..."
 
 # Installing JDK7 which is needed by NetBeans
@@ -195,24 +151,28 @@ sudo apt-get install oracle-java7-installer
 
 # Creating a folder on user's Desktop to download the external apps
 createExternalAppsFolder
+
 # Downloading the apps
 downloadExternalApps appsList
+
 # Tell the user which apps will be installed
 listExternalApps appsList
-# @Todo include a function to install the packages depending on the .deb or .sh extensions
 
+# Going to the newly created folder for external applications
 cd ~/Desktop/ExternalApps
 
 # get all files in the folder
 files=(*)
+
 # list the files
 listDirectoryFiles files
+
 # install the packages
 installDirectoryFiles files
 
 consoleBreak
 echo "External apps ready."
-echo "Now, let's install apps from repos"
+echo "Now, let's install apps from APT."
 consoleBreak
 
 # Confirm the setup!
@@ -226,7 +186,6 @@ while true; do
 done
 
 # Install fix skype icons on top toolbar
-# sudo apt-get install sni-qt sni-qt:i386
 
 if dpkg-query -Wf'${db:Status-abbrev}' sni-qt 2>/dev/null | grep -q '^i'; then
     printf 'The package sni-qt is installed!\n' sni-qt
@@ -236,8 +195,10 @@ fi
 
 # Tell the user which apps will be installed beforehand
 listRepositoryApps repoAppsList
+
 # Install the apps
 InstallRepositoryApps repoAppsList
+
 # Autoremove any unnecessary packages
 sudo apt-get autoremove
 

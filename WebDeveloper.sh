@@ -72,28 +72,6 @@ function listRepositoryApps () {
     consoleBreak
 }
 
-# Creates a folder called "ExternalApps" on user's desktop
-function createExternalAppsFolder {
-    cd ~/Desktop/
-    mkdir ExternalApps
-    cd ExternalApps
-    printf "\n"
-    echo "A folder ExternalApps has been created on your Desktop. Apps will be downloaded there."
-    printf "\n"
-}
-
-# Downloads applications which are external to APT
-function downloadExternalApps () {
-    cd ~/Desktop/ExternalApps
-    echo "Starting the download of external apps ..."
-    for i in "${!appsList[@]}"
-    do
-        echo "Downloading $i ..."
-        printf "\n"
-        wget ${appsList[$i]}
-    done
-}
-
 # Lists the files in a given directory
 function listDirectoryFiles () {
     printf "\n"
@@ -109,27 +87,17 @@ function listDirectoryFiles () {
     printf "\n\n\n"
 }
 
-# Installs packages from a given directory. Recognizes .sh and .deb extensions
-# Depends on function getPackageExtension in order to recognize the extension of a given package
-function installDirectoryFiles () {
-    files=(*)   
-    for i in "${!files[@]}"
-    do
-        echo "Opening:"
-        echo ${files[$i]}
-        extension=$(getPackageExtension ${files[$i]})
-        echo "This file is of extension:"
-        echo $extension;
-        if [ "$extension" = "sh" ]; then
-            chmod +x ${files[$i]}
-            ./${files[$i]}
-        else
-            sudo dpkg -i ${files[$i]}
-        fi
-    done
+# Creates a folder called "ExternalApps" on user's desktop
+function createExternalAppsFolder {
+    cd ~/Desktop/
+    mkdir ExternalApps
+    cd ExternalApps
+    printf "\n"
+    echo "A folder ExternalApps has been created on your Desktop. Apps will be downloaded there."
+    printf "\n"
 }
 
-# Creates a folder called "createArchivesFolder" on user's desktop
+# Creates a folder called "AppArchives" on user's desktop
 function createArchivesFolder {
     cd ~/Desktop/
     mkdir AppArchives
@@ -137,6 +105,18 @@ function createArchivesFolder {
     printf "\n"
     echo "A folder AppArchives has been created on your Desktop. Archive applications will be downloaded there."
     printf "\n"
+}
+
+# Downloads applications which are external to APT
+function downloadExternalApps () {
+    cd ~/Desktop/ExternalApps
+    echo "Starting the download of external apps ..."
+    for i in "${!appsList[@]}"
+    do
+        echo "Downloading $i ..."
+        printf "\n"
+        wget ${appsList[$i]}
+    done
 }
 
 # Downloading archive applications which work with extraction only
@@ -169,6 +149,26 @@ function ExtractFiles () {
     done
 }
 
+# Installs packages from a given directory. Recognizes .sh and .deb extensions
+# Depends on function getPackageExtension in order to recognize the extension of a given package
+function installDirectoryFiles () {
+    files=(*)   
+    for i in "${!files[@]}"
+    do
+        echo "Opening:"
+        echo ${files[$i]}
+        extension=$(getPackageExtension ${files[$i]})
+        echo "This file is of extension:"
+        echo $extension;
+        if [ "$extension" = "sh" ]; then
+            chmod +x ${files[$i]}
+            ./${files[$i]}
+        else
+            sudo dpkg -i ${files[$i]}
+        fi
+    done
+}
+
 # Installing applications through APT
 function InstallRepositoryApps () {
     echo "Starting the installation of apps from repositories"
@@ -189,7 +189,7 @@ function InstallRepositoryApps () {
 clear
 
 echo "The setup now begins."
-echo "Will install the JDK7 package now. It's needed by NetBeans ..."
+echo "Installing the JDK7 package ..."
 
 # Installing JDK7 which is needed by NetBeans
 sudo apt-get install python-software-properties
@@ -218,9 +218,9 @@ listDirectoryFiles files
 # install the packages
 installDirectoryFiles files
 
-echo "Startig the download and install of applications which are coming as archives and should be extracted"
+echo "Downloading and installing applications which are archives"
 
-# creating a folder called createArchivesFolder on the Desktop
+# creating a folder called AppArchives on the Desktop
 createArchivesFolder
 
 # downloading the archives
@@ -239,7 +239,7 @@ ExtractFiles
 sudo cp -r ~/Desktop/AppArchives/copy /opt/
 
 consoleBreak
-echo "External apps ready."
+echo "External applications setup is ready."
 echo "Now, let's install apps from APT."
 consoleBreak
 

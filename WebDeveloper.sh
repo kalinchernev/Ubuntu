@@ -7,6 +7,39 @@
 # FUNCTIONS AND LIST DEFINITIONS #
 ##################################
 
+# Declaring an array with list of external apps
+declare -A archiveApps
+
+archiveApps=(
+    ["Copy"]="https://copy.com/install/linux/Copy.tgz"
+)
+
+# Declaring an array with list of external apps
+declare -A appsList
+
+appsList=(
+    ["NetBeans for PHP and HTML5"]="http://download.netbeans.org/netbeans/7.4/final/bundles/netbeans-7.4-php-linux.sh"
+    ["Google Chrome for Ubuntu 12.04 LTS 64 bit"]="https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
+    ["DrobBox for Ubuntu 12.04 LTS 64 bit "]="https://linux.dropbox.com/packages/ubuntu/dropbox_1.6.0_amd64.deb"
+    ["Skype for Ubuntu 12.04 LTS Multiachitecture"]="http://download.skype.com/linux/skype-ubuntu-precise_4.2.0.11-1_i386.deb"
+    ["SublimeText3 Beta for Ubuntu 12.04 LTS 64 bit"]="http://c758482.r82.cf2.rackcdn.com/sublime-text_build-3059_amd64.deb"
+)
+
+# Declaring an array with list of repository apps
+declare -A repoAppsList
+
+repoAppsList=(
+    ["Apache2 Server"]="apache2"
+    ["MySQL Server"]="mysql-server libapache2-mod-auth-mysql php5-mysql mysql-client-core-5.5"
+    ["PHP5"]="php5 libapache2-mod-php5 php5-mcrypt"
+    ["PHP5 Extensions"]="php5-mysql php5-curl php5-gd php-pear php5-mcrypt php5-recode php5-sqlite"
+    ["phpmyadmin"]="phpmyadmin"
+    ["git"]="git"
+    ["SVN"]="subversion libapache2-svn"
+    ["VirtualBox"]="virtualbox"
+    ["Gnome Tweak Tool"]="gnome-tweak-tool"
+)
+
 # Includes 3 line breaks in the command line
 function consoleBreak {
     printf "\n\n\n"
@@ -45,7 +78,7 @@ function createExternalAppsFolder {
     mkdir ExternalApps
     cd ExternalApps
     printf "\n"
-    echo "A foldre ExternalApps has been created on your Desktop. Apps will be downloaded there."
+    echo "A folder ExternalApps has been created on your Desktop. Apps will be downloaded there."
     printf "\n"
 }
 
@@ -96,6 +129,46 @@ function installDirectoryFiles () {
     done
 }
 
+# Creates a folder called "createArchivesFolder" on user's desktop
+function createArchivesFolder {
+    cd ~/Desktop/
+    mkdir AppArchives
+    cd AppArchives
+    printf "\n"
+    echo "A folder AppArchives has been created on your Desktop. Archive applications will be downloaded there."
+    printf "\n"
+}
+
+# Downloading archive applications which work with extraction only
+# archiveApps array should be passed to the function to work 
+function downloadArchives () {
+    cd ~/Desktop/AppArchives
+    echo "Starting the download of archives applications ..."
+    for i in "${!archiveApps[@]}"
+    do
+        echo "Downloading $i ..."
+        printf "\n"
+        wget ${archiveApps[$i]}
+    done
+}
+
+# Extracts and installs archive packages correspondingly
+# Depends on function getPackageExtension in order to recognize the extension of a given package
+function ExtractFiles () {
+    files=(*)   
+    for i in "${!files[@]}"
+    do
+        echo "Opening:"
+        echo ${files[$i]}
+        extension=$(getPackageExtension ${files[$i]})
+        echo "This file is of extension:"
+        echo $extension;
+        if [ "$extension" = "tgz" ]; then
+            tar -xvzf ${files[$i]}
+        fi
+    done
+}
+
 # Installing applications through APT
 function InstallRepositoryApps () {
     echo "Starting the installation of apps from repositories"
@@ -108,38 +181,13 @@ function InstallRepositoryApps () {
     done
 }
 
-# Declaring an array with list of external apps
-declare -A appsList
-
-appsList=(
-    ["NetBeans for PHP and HTML5"]="http://download.netbeans.org/netbeans/7.4/final/bundles/netbeans-7.4-php-linux.sh"
-    ["Google Chrome for Ubuntu 12.04 LTS 64 bit"]="https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
-    ["DrobBox for Ubuntu 12.04 LTS 64 bit "]="https://linux.dropbox.com/packages/ubuntu/dropbox_1.6.0_amd64.deb"
-    ["Skype for Ubuntu 12.04 LTS Multiachitecture"]="http://download.skype.com/linux/skype-ubuntu-precise_4.2.0.11-1_i386.deb"
-    ["SublimeText3 Beta for Ubuntu 12.04 LTS 64 bit"]="http://c758482.r82.cf2.rackcdn.com/sublime-text_build-3059_amd64.deb"
-)
-
-# Declaring an array with list of repository apps
-declare -A repoAppsList
-
-repoAppsList=(
-    ["Apache2 Server"]="apache2"
-    ["MySQL Server"]="mysql-server libapache2-mod-auth-mysql php5-mysql mysql-client-core-5.5"
-    ["PHP5"]="php5 libapache2-mod-php5 php5-mcrypt"
-    ["PHP5 Extensions"]="php5-mysql php5-curl php5-gd php-pear php5-mcrypt php5-recode php5-sqlite"
-    ["phpmyadmin"]="phpmyadmin"
-    ["git"]="git"
-    ["SVN"]="subversion libapache2-svn"
-    ["VirtualBox"]="virtualbox"
-    ["Gnome Tweak Tool"]="gnome-tweak-tool"
-)
-
-
 ############################
 # STARTING THE ACTUAL WORK #
 ############################
 
-consoleBreak
+# starting anew
+clear
+
 echo "The setup now begins."
 echo "Will install the JDK7 package now. It's needed by NetBeans ..."
 
@@ -169,6 +217,26 @@ listDirectoryFiles files
 
 # install the packages
 installDirectoryFiles files
+
+echo "Startig the download and install of applications which are coming as archives and should be extracted"
+
+# creating a folder called createArchivesFolder on the Desktop
+createArchivesFolder
+
+# downloading the archives
+downloadArchives archiveApps
+
+# get a list of files in the folder
+files=(*)
+
+# list the files
+listDirectoryFiles files
+
+# extracting the archives
+ExtractFiles
+
+# copying the /copy/ folder to /opt/
+sudo cp -r ~/Desktop/AppArchives/copy /opt/
 
 consoleBreak
 echo "External apps ready."

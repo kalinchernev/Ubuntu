@@ -53,14 +53,11 @@ Also, features-wise, there could be an automatic OS detection tool to work with 
 Installation
 ------------
 Here are the steps you need to take to start the script:
-* Download the WebDevSetup.sh file
-* Open the terminal with 
-	Ctrl+Atl+t
+* Download the install.sh file
+* Open the terminal with `Ctrl+Atl+t`
 * Change to the folder where you have downloaded the file
-* Add permissions to the file by 
-	chmod +x ./WebDevSetup.sh
-* Run by typing 
-	./WebDevSetup.sh
+* Add permissions to the file by `chmod +x ./install.sh`
+* Run by typing `./install.sh`
 
 Making it your own
 ------------

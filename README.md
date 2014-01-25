@@ -38,9 +38,9 @@ External applications are downloaded on the Desktop, so that user can install th
 @Todo
 ------------
 The following applications will also be included in the script
+* VMWare Player
 * nodeJS
 * Drush
-* Copy
 * XDebug
 
 Other web development helpers are planned:
@@ -54,10 +54,13 @@ Installation
 ------------
 Here are the steps you need to take to start the script:
 * Download the WebDevSetup.sh file
-* Open the terminal with Ctrl+Atl+t
+* Open the terminal with 
+	Ctrl+Atl+t
 * Change to the folder where you have downloaded the file
-* Add permissions to the file by chmod +x ./WebDevSetup.sh
-* Run by typing ./WebDevSetup.sh
+* Add permissions to the file by 
+	chmod +x ./WebDevSetup.sh
+* Run by typing 
+	./WebDevSetup.sh
 
 Making it your own
 ------------

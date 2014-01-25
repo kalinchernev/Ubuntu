@@ -26,6 +26,7 @@ Tools
 * Google Chrome
 * subversion (SVN)
 * DropBox
+* Copy
 * VirtualBox
 * Skype
 * Sublime Text 3

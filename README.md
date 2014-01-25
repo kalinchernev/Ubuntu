@@ -1,10 +1,10 @@
 README
 ======
 
-What is WebDevSetup.sh
+What is install.sh
 ----------------
 
-WebDevSetup.sh prepares your Ubuntu 64 bit 12.04 LTS computer for web development with the Linux-Apache-MySQL-PHP.
+install.sh prepares your Ubuntu 64 bit 12.04 LTS computer for web development with the Linux-Apache-MySQL-PHP.
 Run the script and enjoy your ready working environment!
 
 Features

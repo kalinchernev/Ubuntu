@@ -66,7 +66,7 @@ function listDirectoryFiles () {
 # Extracts and installs archive packages correspondingly
 # Depends on function getPackageExtension in order to recognize the extension of a given package
 function ExtractFiles () {
-    files=(*)   
+    files=(*)
     for i in "${!files[@]}"
     do
         echo "Opening:"

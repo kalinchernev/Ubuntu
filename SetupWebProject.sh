@@ -65,6 +65,8 @@ cat <<EOF >> /etc/apache2/sites-available/$project_name.conf
         Order allow,deny
         allow from all
     </Directory>
+    ErrorLog /var/www/$project_name/logs/error.log
+    CustomLog /var/www/$project_name/logs/access.log combined
 </VirtualHost>
 EOF
 

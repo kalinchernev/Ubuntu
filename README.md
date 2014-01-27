@@ -8,7 +8,7 @@ This project contains a handful of shell scripts to make your life with web deve
 The following items are included:
 * `SetupLinuxApacheMySQLPHP.sh` targets Ubuntu 64 bit 12.04 LTS computers. The script sets up local development environment for Linux-Apache-MySQL-PHP. Currently, additional tools are included as well - please refer to section "SetupLinuxApacheMySQLPHP.sh applications"
 * `SetupWebProject.sh` targets Ubuntu 13.10 computers. SetupWebProject.sh automates the setup of new web projects on Apache. Please refer to "SetupWebProject.sh applications" for more information
-* `SetupDrush.sh` is a script to install Drush command line tool on Ubuntu 13.10. `SetupDrush.sh` contains documentation in itself.
+* `SetupDrush.sh` targetes Ubuntu 13.10 computers, because installation has specifics. `SetupDrush.sh` contains documentation in itself.
 * `ArchivesSetup.sh` is currently a placeholder to migrate the automation of downloading and installing programs coming as archives outside APT
 
 SetupLinuxApacheMySQLPHP.sh applications

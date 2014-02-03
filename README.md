@@ -9,6 +9,7 @@ The following items are included:
 * `SetupLinuxApacheMySQLPHP.sh` targets Ubuntu 64 bit 12.04 LTS computers. The script sets up local development environment for Linux-Apache-MySQL-PHP. Currently, additional tools are included as well - please refer to section "SetupLinuxApacheMySQLPHP.sh applications"
 * `SetupWebProject.sh` targets Ubuntu 13.10 computers. SetupWebProject.sh automates the setup of new web projects on Apache. Please refer to "SetupWebProject.sh applications" for more information
 * `SetupDrush.sh` targetes Ubuntu 13.10 computers, because installation has specifics. `SetupDrush.sh` contains documentation in itself.
+* `SetupVMWarePlayer.sh` has been tested on Ubuntu 13.10 computers, but should be executable on any version as well, since no specifics are included
 * `ArchivesSetup.sh` is currently a placeholder to migrate the automation of downloading and installing programs coming as archives outside APT
 
 SetupLinuxApacheMySQLPHP.sh applications
@@ -40,9 +41,7 @@ Note that some of the applications are downloaded via external sources (skype, C
 External applications are downloaded on the Desktop, so that user can install them manually if necessary.
 
 The following applications will also be included in the tools' set
-* VMWare Player
 * nodeJS
-* Drush
 * XDebug
 
 SetupWebProject.sh applications
@@ -57,6 +56,15 @@ SetupWebProject.sh automates the setup of new web projects on Apache in the foll
 * enables the new virtualhost project site using default functions from apache2
 * includes a new entry inside /etc/hosts file for reaching the project with pretty url
 * restarts apache2 service
+
+SetupVMWarePlayer.sh applications
+--------
+SetupVMWarePlayer.sh prepares you to manage virtual machines on your PC:
+* Downloads the player
+* Extracts the archive
+* Runs the install
+* Clears up installables
+* Runs the newly installed player
 
 Installation
 ------------

@@ -23,8 +23,12 @@ echo "Creating $project_name ..."
 # Creating project folder
 sudo mkdir -p /var/www/$project_name/public_html
 echo "Project folder has been created."
+sudo mkdir -p /var/www/$project_name/logs
+echo "Folder for log files has been created."
 # Makes sure the user has permissions on the project folder
 sudo chown -R $USER:$USER /var/www/$project_name/public_html
+# Makes sure the user has permissions on the logs folder
+sudo chown -R $USER:$USER /var/www/$project_name/logs
 # Ensure anyone can read the files
 sudo chmod -R 755 /var/www
 # Creates and example index.html file in the project folder
@@ -38,11 +42,11 @@ cat <<EOF >> /var/www/$project_name/public_html/index.html
 	<title>$project_name index file</title>
 </head>
 <body>
-	<h1>$project_name is ready!</h1>
-    <p>This index file is located at: /var/www/$project_name/public_html/index.html<p>
-	<p>So. project folder is at: /var/www/$project_name/public_html</p>
-	<p>VirtualHost has been created with the name of your project: http://$project_name/</p>
-    <p>Happy coding!<p>
+<h1>$project_name is ready!</h1>
+<p>This index file is located at: /var/www/$project_name/public_html/index.html<p>
+<p>So. project folder is at: /var/www/$project_name/public_html</p>
+<p>VirtualHost has been created with the name of your project: http://$project_name/</p>
+<p>Happy coding!<p>
 </body>
 </html>
 EOF

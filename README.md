@@ -6,11 +6,20 @@ Ubuntu automation
 This project contains a handful of shell scripts to make your life with web development in Ubuntu easier.
 
 The following items are included:
+* [`BackupWebProjects.sh`](#backupwebprojects) is general purpose script to backup all web projects in any linux environment.
 * `SetupLinuxApacheMySQLPHP.sh` targets Ubuntu 64 bit 12.04 LTS computers. The script sets up local development environment for Linux-Apache-MySQL-PHP. Currently, additional tools are included as well - please refer to section "SetupLinuxApacheMySQLPHP.sh applications"
 * `SetupWebProject.sh` targets Ubuntu 13.10 computers. SetupWebProject.sh automates the setup of new web projects on Apache. Please refer to "SetupWebProject.sh applications" for more information
 * `SetupDrush.sh` targetes Ubuntu 13.10 computers, because installation has specifics. `SetupDrush.sh` contains documentation in itself.
 * `SetupVMWarePlayer.sh` has been tested on Ubuntu 13.10 computers, but should be executable on any version as well, since no specifics are included
 * `ArchivesSetup.sh` is currently a placeholder to migrate the automation of downloading and installing programs coming as archives outside APT
+
+BackupWebProjects.sh
+--------
+BackupWebProjects.sh automates the backing up of all web projects contained in a given linux environment
+* Backup file contains a date description, convenient for daily backups
+* Backup archive is generated to hold the projects
+* The archive is stored within a folder from Copy cloud service, which automatically backups the file in the cloud
+* All parameters of the backup automation can be changed to match different development environments and cloud backup service
 
 SetupLinuxApacheMySQLPHP.sh applications
 --------
@@ -44,7 +53,7 @@ The following applications will also be included in the tools' set
 * nodeJS
 * XDebug
 
-SetupWebProject.sh applications
+SetupWebProject.sh
 --------
 SetupWebProject.sh automates the setup of new web projects on Apache in the following way:
 * takes user input for name of the project - i.e. example.dev
@@ -57,7 +66,7 @@ SetupWebProject.sh automates the setup of new web projects on Apache in the foll
 * includes a new entry inside /etc/hosts file for reaching the project with pretty url
 * restarts apache2 service
 
-SetupVMWarePlayer.sh applications
+SetupVMWarePlayer.sh
 --------
 SetupVMWarePlayer.sh prepares you to manage virtual machines on your PC:
 * Downloads the player
